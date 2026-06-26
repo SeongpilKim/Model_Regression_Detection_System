@@ -6,7 +6,23 @@ from schemas import EmailClassification
 
 def classify_support_email(email: str, prompt_file: str = "prompts/email_classifier_v1.0.yaml") -> EmailClassification:
     """
-    
+    Classify a support email with a YAML-defined prompt and return the parsed result.
+
+    The prompt file provides the system prompt, few-shot examples, and the user
+    prompt template used to build the chat completion request. The model response
+    is parsed into an ``EmailClassification`` instance before being returned.
+
+    Args:
+        email: The email text to classify.
+        prompt_file: Path to the YAML prompt configuration file.
+
+    Returns:
+        An ``EmailClassification`` parsed from the model response.
+
+    Raises:
+        FileNotFoundError: If the prompt file cannot be opened.
+        KeyError: If required keys are missing from the YAML prompt data.
+        ValueError: If the model response cannot be parsed into the schema.
     """
     
     with open(prompt_file, "r") as file:
