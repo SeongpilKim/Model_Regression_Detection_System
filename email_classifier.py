@@ -1,71 +1,51 @@
 import os
-import json
+import yaml
 from openai import OpenAI
+from schemas import EmailClassification
 
-DEFAULT_PROMPT = """You are a customer support email classifier.
 
-Analyze the email below and respond with ONLY a JSON object in this exact format:
-{{
-  "category": "<one of: billing, technical, account, general>",
-  "summary": "<one sentence describing the customer's issue>"
-}}
-
-Rules:
-- category must be exactly one of the four options
-- summary must be a single sentence, under 20 words
-- Do not include any text outside the JSON object
-
-Email to classify:
-{email}"""
-
-VALID_CATEGORIES = {"billing", "technical", "account", "general"}
-
-def classify_support_email(
-    email: str,
-    prompt_template: str = DEFAULT_PROMPT,
-    model: str = "gpt-4o-mini",  # fast + cheap, good for classification
-) -> dict:
+def classify_support_email(email: str, prompt_file: str = "prompts/email_classifier_v1.0.yaml") -> EmailClassification:
     """
-    Classify a customer support email into a category and generate a summary.
-
-    Args:
-        email: The raw email text to classify.
-        prompt_template: A prompt string with a {email} placeholder.
-        model: The OpenAI model to use.
-
-    Returns:
-        {"category": str, "summary": str}
-
-    Raises:
-        ValueError: If the response can't be parsed or category is invalid.
+    
     """
+    
+    with open(prompt_file, "r") as file:
+        prompt_data = yaml.safe_load(file)
+
+    messages = []
+    
+    messages.append({
+        "role": "system", 
+        "content": prompt_data["system_prompt"]
+    })
+    
+    # add few shot examples from prompt file
+    for example in prompt_data["few_shot_examples"]:
+        messages.append({
+            "role": "user", 
+            "content": f"Email to classify:\n{example['input']}"
+        })
+        messages.append({
+            "role": "assistant", 
+            "content": example['expected_output']
+        })
+
+    # add the actual email to classify
+    final_prompt = prompt_data["user_prompt_template"].format(email=email)
+    messages.append({
+        "role": "user", 
+        "content": final_prompt
+    })
+
+
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-
-    prompt = prompt_template.format(email=email)
-
-    response = client.chat.completions.create(
-        model=model,
+    
+    response = client.beta.chat.completions.parse(
+        model=prompt_data["metadata"]["target_model"],
+        temperature=prompt_data["metadata"]["temperature"], 
         max_tokens=256,
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
+        response_format=EmailClassification, 
+        messages=messages,
     )
-
-    raw = response.choices[0].message.content.strip()
-
-    try:
-        result = json.loads(raw)
-    except json.JSONDecodeError:
-        raise ValueError(f"Model returned non-JSON output: {raw!r}")
-
-    if result.get("category") not in VALID_CATEGORIES:
-        raise ValueError(f"Invalid category: {result.get('category')!r}")
-
-    if not isinstance(result.get("summary"), str):
-        raise ValueError("Missing or invalid summary field")
-
-    return {
-        "category": result["category"],
-        "summary": result["summary"],
-    }
+    
+    return response.choices[0].message.parsed

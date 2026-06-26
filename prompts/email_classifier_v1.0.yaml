@@ -1,0 +1,68 @@
+version: "1.0.0"
+metadata:
+  name: "Email Classifier"
+  description: "Classifies emails into 4 categories based on their content."
+  author: "Sean Kim"
+  updated_at: "2026-06-26"
+  target_model: "gpt-4o-mini"
+  temperature: 0.0
+
+system_prompt: |
+  You are a customer support email classifier.
+
+  Analyze the email below and respond with ONLY a JSON object in this exact format:
+  {{
+  "category": "<one of: billing, technical, account, general>",
+  "summary": "<one sentence describing the customer's issue>"
+  }}
+
+  Rules:
+  - category must be exactly one of the four options
+  - summary must be a single sentence, under 20 words
+  - Do not include any text outside the JSON object
+
+user_prompt_template: |
+  Email to classify:
+  {email}
+
+few_shot_examples:
+  - input: |
+      Subject: Bill charged twice
+      Body: Hello, I noticed that I was charged twice this month, if this could be fixed asap, that would be great
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer was charged twice for their spending."
+      }
+  - input: |
+      Subject: Can't Log In
+      Body: I forgot my password and can't access my account. Can you assist me?
+    expected_output: |
+      {
+        "category": "account",
+        "summary": "Customer cannot log in due to a forgotten password."
+      }
+  - input: |
+      Subject: App Crashes
+      Body: The app crashes every time I try to open it on my phone.
+    expected_output: |
+      {
+        "category": "technical",
+        "summary": "App crashes on launch for the customer."
+      }
+  - input: |
+      Subject: General Inquiry
+      Body: What are your business hours and where are you located?
+    expected_output: |
+      {
+        "category": "general",
+        "summary": "Customer is asking about business hours and location."
+      }
+  - input: |
+      Subject: login not working
+      Body: My login attempts keep failing and I have no clue what's going on. Please help
+    expected_output: |
+      {
+        "category": "account",
+        "summary": "Customer is unable to log in and seeks assistance."
+      }
