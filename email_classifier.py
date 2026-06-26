@@ -48,4 +48,11 @@ def classify_support_email(email: str, prompt_file: str = "prompts/email_classif
         messages=messages,
     )
     
-    return response.choices[0].message.parsed
+    parsed_result = response.choices[0].message.parsed
+
+    # if parsed_result is None: Loudly fail
+    if parsed_result is None:
+        raise ValueError("Failed to parse the model's response into EmailClassification. Output may have been blocked or cut off.")
+    
+    # safe to return
+    return parsed_result
