@@ -28,44 +28,12 @@ user_prompt_template: |
 # 25 billing -> 25 technical -> 25 account -> general
 few_shot_examples:
   - input: |
-      Subject: Bill charged twice
-      Body: Hello, I noticed that I was charged twice this month, if this could be fixed asap, that would be great
-    expected_output: |
-      {
-        "category": "billing",
-        "summary": "Customer was charged twice for their spending."
-      }
-  - input: |
-      Subject: How to stop auto pay
-      Body: Hello, I want to stop my auto payment system, but I do not know how. If I could get some instructions, that would be great
-    expected_output: |
-      {
-        "category": "billing",
-        "summary": "Customer wants directions for disabling auto payment system"
-      }
-  - input: |
       Subject: Forgot to cancel free trial
       Body: Hello, I forgot to cancel after my free trial ended and was charged. I want a refund, and I have not used the service at all after the trial
     expected_output: |
       {
         "category": "billing",
         "summary": "Customer forgot to cancel free trial in time, and wants a refund for the charged amount"
-      }
-  - input: |
-      Subject: Inquiry about failed payment
-      Body: My payment was failed, and I have no idea why. Can you check my account and see what is going on?
-    expected_output: |
-      {
-        "category": "billing",
-        "summary": "Customer's payment was failed and wants to know reason behind it"
-      }
-  - input: |
-      Subject: Cannot access account
-      Body: I cannot access the paid feature of the website because my account was suspended. The reason is because the auto payment failed, but I do not know why. Could I get some insight into the issue?
-    expected_output: |
-      {
-        "category": "billing",
-        "summary": "Customer's wants to know why their auto payment failed."
       }
   - input: |
       Subject: Deleting account
@@ -76,15 +44,21 @@ few_shot_examples:
         "summary": "Customer wants explicit confirmation that they will not be charged next month after deleting account."
       }
   - input: |
-      Subject: Question about "Service Fee"
-      Body: I am on your checkout page for the pro plan and I see a random 15 dollar service fee that I did not see anywhere. What is it? and can it be removed?
+      Subject: Subscription tier Inquiry
+      Body: Hello, I was looking through the subscription tiers and noticed that there was a plan cheaper than my current plan. I was wondering If it would be possible to switch into that subscription and be refunded the difference.
     expected_output: |
       {
         "category": "billing",
-        "summary": "Prospective customer disputing an unexpected service fee at checkout"
+        "summary": "Customer requesting refund for the difference between their current plan and the cheaper plan they will switch to"
       }
   - input: |
-      Subject: 
+      Subject: Website error
+      Body: I was checking out my subscription, but the website was bugging out, and I tried to refresh the page out of it. I think that caused a double payment, and I would like a refund for the extra charged amount"
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer was charged twice due to technical error, requesting a refund for the excess amount."
+      }
   - input: |
       Subject: Can't Log In
       Body: I forgot my password and can't access my account. Can you assist me?

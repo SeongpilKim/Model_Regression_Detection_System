@@ -1,0 +1,68 @@
+[
+  {
+    "subject": "Bill charged twice",
+    "body": "Hello, I noticed that I was charged twice this month, if this could be fixed asap, that would be great",
+    "category": "billing",
+    "summary": "Customer was charged twice for their spending."
+  },
+  {
+    "subject": "How to stop auto pay",
+    "body": "Hello, I want to stop my auto payment system, but I do not know how. If I could get some instructions, that would be great",
+    "category": "billing",
+    "summary": "Customer wants directions for disabling auto payment system"
+  },
+  {
+    "subject": "Inquiry about failed payment",
+    "body": "My payment was failed, and I have no idea why. Can you check my account and see what is going on?",
+    "category": "billing",
+    "summary": "Customer's payment was failed and wants to know reason behind it"
+  },
+  {
+    "subject": "Cannot access account",
+    "body": "I cannot access the paid feature of the website because my account was suspended. The reason is because the auto payment failed, but I do not know why. Could I get some insight into the issue?",
+    "category": "billing",
+    "summary": "Customer's wants to know why their auto payment failed."
+  },
+  {
+    "subject": "Question about \"Service Fee\"",
+    "body": "I am on your checkout page for the pro plan and I see a random 15 dollar service fee that I did not see anywhere. What is it? and can it be removed?",
+    "category": "billing",
+    "summary": "Prospective customer disputing an unexpected service fee at checkout"
+  },
+  {
+    "subject": "Refund for trial period",
+    "body": "Hello, I paid for a subscription and used the service for about 6 days, and decided that I would like to cancel and get a refund.",
+    "category": "billing",
+    "summary": "Customer wants to get a refund as they are cancelling subscription within trial period."
+  },
+  {
+    "subject": "Broken product",
+    "body": "My product has an internal damage and would not function. I would like a refund of the product.",
+    "category": "billing",
+    "summary": "Customer wants a refund for an interally damaged product."
+  },
+  {
+    "subject": "Subscription charge",
+    "body": "I was planning to downgrade to the free tier, but forgot to do so. Could I get a refund for the subscription charge?",
+    "category": "billing",
+    "summary": "Customer wants a refund for forgotten account downgrade."
+  },
+  {
+    "subject": "Poor experience",
+    "body": "The subscription I paid for is very unenjoyable. I would like a refund for the price, while keeping the subscription. Shame on you!",
+    "category": "billing",
+    "summary": "Customer requesting a full refund of their current subscription while maintaining the subscription itself"
+  },
+  {
+    "subject": "Account Suspension",
+    "body": "My account was suspended, but I was still charged for the subscription renewal, could I get a refund for that charge and get rid of the recurring payments?",
+    "category": "billing",
+    "summary": "Customer wants a refund for their recent subscription renewal, and stop payment plan as their accuont is suspended."
+  },
+  {
+    "subject": "Subscription cost details",
+    "body": "Hello, I was wondering if I could get a detailed breakdown of the subscription cost. I was charged an amount that I did not expect",
+    "category": "billing",
+    "summary": "Customer wants detailed breakdown of their recent charge of an unexpected amount."
+  }
+]
