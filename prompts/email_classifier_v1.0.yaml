@@ -25,6 +25,7 @@ user_prompt_template: |
   Email to classify:
   {email}
 
+# 25 billing -> 25 technical -> 25 account -> general
 few_shot_examples:
   - input: |
       Subject: Bill charged twice
@@ -34,6 +35,56 @@ few_shot_examples:
         "category": "billing",
         "summary": "Customer was charged twice for their spending."
       }
+  - input: |
+      Subject: How to stop auto pay
+      Body: Hello, I want to stop my auto payment system, but I do not know how. If I could get some instructions, that would be great
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer wants directions for disabling auto payment system"
+      }
+  - input: |
+      Subject: Forgot to cancel free trial
+      Body: Hello, I forgot to cancel after my free trial ended and was charged. I want a refund, and I have not used the service at all after the trial
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer forgot to cancel free trial in time, and wants a refund for the charged amount"
+      }
+  - input: |
+      Subject: Inquiry about failed payment
+      Body: My payment was failed, and I have no idea why. Can you check my account and see what is going on?
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer's payment was failed and wants to know reason behind it"
+      }
+  - input: |
+      Subject: Cannot access account
+      Body: I cannot access the paid feature of the website because my account was suspended. The reason is because the auto payment failed, but I do not know why. Could I get some insight into the issue?
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer's wants to know why their auto payment failed."
+      }
+  - input: |
+      Subject: Deleting account
+      Body: I am going to completely delete my account, and I want to be completely sure that I will not be charged next month.
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Customer wants explicit confirmation that they will not be charged next month after deleting account."
+      }
+  - input: |
+      Subject: Question about "Service Fee"
+      Body: I am on your checkout page for the pro plan and I see a random 15 dollar service fee that I did not see anywhere. What is it? and can it be removed?
+    expected_output: |
+      {
+        "category": "billing",
+        "summary": "Prospective customer disputing an unexpected service fee at checkout"
+      }
+  - input: |
+      Subject: 
   - input: |
       Subject: Can't Log In
       Body: I forgot my password and can't access my account. Can you assist me?
